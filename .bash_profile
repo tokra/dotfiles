@@ -1,24 +1,34 @@
 #!/bin/bash
-#######################
+
+#####################################################################
 # Functions
-#######################
 function cmdExists () {
     type "$1" &> /dev/null ;
 }
 
-function brewPackageInstalled () {
+function formulaInstalled () {
   brew ls --versions "$1" > /dev/null
 }
 
-function brewPackageInstalled2 () {
-  brew info "$1" >/dev/null 2>&1
+function brewInstall () {
+  if ! formulaInstalled "$1" ; then
+    printf 'Installation:\n> [macOs] BREW installing: %s\n' "$1"
+    brew install android-sdk
+  fi
 }
 
-function brewCaskInstalled () {
-  brew cask info "$1" &> /dev/null
+function caskInstalled () {
+  brew cask ls --versions sublime-text "$1" &> /dev/null
 }
 
-#######################
+function caskInstall () {
+  if ! caskInstalled "$1" ; then
+    printf '\nInstallation:\n> [macOs] BREW CASK installing: %s\n' "$1"
+    brew cask install "$1"
+  fi
+}
+
+#####################################################################
 # OS detection
 platform='unknown'
 unamestr=`uname`
@@ -37,16 +47,20 @@ elif [[ "$unamestr" == 'FreeBSD' ]]; then
   platform='freebsd'
 fi
 
-#######################
+#####################################################################
 # Mac Homebrew
 if [[ "$isMac" == true ]]; then
   if ! cmdExists brew ; then
-    printf 'Installation:\n> RUBY installing of BREW (macos)'
+    printf 'Installation:\n> [macOs] RUBY installing BREW'
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update
+    brewInstall 'brew-cask'
+    brew tap caskroom/cask
+    brew tap caskroom/versions
   fi
 fi
 
-#######################
+#####################################################################
 # Git + Git aware prompt
 if [[ ! -d ~/.bash/ ]]; then
   echo 'Installation of Git aware prompts:'
@@ -141,35 +155,105 @@ elif [[ "$isUbuntu" == true ]]; then
 fi
 
 #####################################################################
-# Android SDK
+# Mac Homebrew apps
 if [[ "$isMac" == true ]]; then
-  if ! brewPackageInstalled android-sdk ; then
-    printf 'Installation:\n> BREW installing android-sdk (macos)'
-    brew install android-sdk
-  fi
-  export ANDROID_HOME=`brew --prefix android-sdk`
-  launchctl setenv ANDROID_HOME $ANDROID_HOME
+  # coreutils: greadlink etc.
+  brewInstall 'coreutils'
+  # Android SDK
+  brewInstall 'android-sdk'
+  # Docker
+  brewInstall 'docker'
+  brewInstall 'docker-machine'
+fi 
+
+#####################################################################
+# Mac homebrew cask : Applications
+if [[ "$isMac" == true ]]; then
+  # Java 7
+  caskInstall 'java7'
+  # Java 8
+  caskInstall 'java'
+  # iTerm2
+  caskInstall 'iterm2'
+  # Sublime
+  caskInstall 'sublime-text'
+  # Visual Studio code
+  caskInstall 'visual-studio-code'
+   # Android Studio
+  caskInstall 'android-studio'
+  # Source Tree
+  caskInstall 'sourcetree'
+  # Virtual Box
+  caskInstall 'virtualbox'
+  # Mac ports
+  caskInstall 'macports'
+  # smc fan control
+  caskInstall 'smcfancontrol'
+
+  ############# 
+  # Google Chrome
+  caskInstall 'google-chrome'
+  # Google Drive
+  caskInstall 'google-drive'
+  # Mozilla Firefox
+  caskInstall 'firefox'
+  # Filezilla
+  caskInstall 'filezilla'
+  # gfx card status
+  caskInstall 'gfxcardstatus'
+  # better touch tool
+  caskInstall 'bettertouchtool'
+  # App Zapper
+  caskInstall 'appzapper'
+  # Adobe Creative Cloud
+  caskInstall 'adobe-creative-cloud'
+  # Adobe Acrobat Reader
+  caskInstall 'adobe-reader'
+  # Slack
+  caskInstall 'slack'
+  # Skitch
+  caskInstall 'skitch'
+  # Team Viewer
+  caskInstall 'teamviewer'
+  # XN View MP
+  caskInstall 'xnviewmp'
+  # XtraFinder
+  caskInstall 'xtrafinder'
+  # Zoom.us 
+  caskInstall 'zoomus'
+  # Real VNC
+  caskInstall 'real-vnc'
+  # Skype
+  caskInstall 'skype'
+
+  ############# FOR FUN
+  # Spotify
+  caskInstall 'spotify'
+  # Djay pro 
+  caskInstall 'djay-pro'
+  # Kid3
+  caskInstall 'kid3'
+  # Messenger
+  caskInstall 'messenger'
+  # Steam
+  caskInstall 'steam'
+  # Trasmission Remote Gui
+  caskInstall 'transmission-remote-gui'
+  # Viber
+  caskInstall 'viber'
+  # Whats app
+  caskInstall 'whatsapp'
+  # VLC Media Player
+  caskInstall 'vlc'
+  # Gopro Studio
+  caskInstall 'gopro-studio'
+  # HandBrake
+  caskInstall 'handbrake'
+  # Vinoteka
+  caskInstall 'vinoteka'
 fi
 
-# Mac brew cask : Applications
-if [[ "$isMac" == true ]]; then
-  # Sublime
-  if ! brewCaskInstalled sublime-text ; then
-    printf 'Installation:\n> BREW CASK installing: sublime-text (macos)'
-    brew cask install sublime-text
-  fi
-  # Visual Studio code
-  if ! brewCaskInstalled visual-studio-code ; then
-    printf 'Installation:\n> BREW CASK installing: visual-studio-code (macos)'
-    brew cask install visual-studio-code
-  fi
-  # Google chrome
-  if ! brewCaskInstalled google-chrome ; then
-    printf 'Installation:\n> BREW CASK installing: google-chrome (macos)'
-    brew cask install google-chrome
-  fi
-fi
-#######################
+#####################################################################
 # Paths
 export PATH=/usr/local/bin:$PATH
 
@@ -178,6 +262,10 @@ if [[ "$isMac" == true ]]; then
 
   ## SCM tool
   export PATH=/opt/jazz/scmtools/eclipse:$PATH
+
+  # Android Home
+  export ANDROID_HOME=`brew --prefix android-sdk`
+  launchctl setenv ANDROID_HOME $ANDROID_HOME
 
   # MacPorts Installer addition on 2015-08-13_at_15:10:48: adding an appropriate PATH variable for use with MacPorts.
   export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
