@@ -26,7 +26,7 @@ function brewInstall () {
 }
 function brewCaskInstall () {
   if ! brewCaskContains "$1" ; then
-    printf '\nInstallation:\n> [macOs] BREW CASK installing: %s\n' "$1"
+    printf 'Installation:\n> [macOs] BREW CASK installing: %s\n' "$1"
     brew cask install "$1"
   fi
 }
