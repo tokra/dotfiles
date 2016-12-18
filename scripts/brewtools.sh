@@ -1,37 +1,32 @@
 #!/bin/bash
-brewList=`brew list`
-brewCaskList=`brew cask list`
+# brew additional functions
 function brewContains () {
   if [[ $brewList == *"$1"* ]]; then
-    echo "Formula: $1 exists..."
+    #echo "Formula: $1 exists :-)"
     return 0;
   else
-    echo "Formula: $1 does not exist !!!"
+    #echo "Formula: $1 does not exist !!!"
     return 1;
   fi
 }
 function brewCaskContains () {
   if [[ $brewCaskList == *"$1"* ]]; then
-    echo "Cask: $1 exists..."
+    #echo "Cask: $1 exists..."
     return 0;
   else
-    echo "Cask: $1 does not exist !!!"
+    #echo "Cask: $1 does not exist !!!"
     return 1;
   fi
 }
-brewContains 'android-sdk'
-brewContains 'ant'
-brewContains 'gradle'
-brewContains 'maven'
-brewContains 'node'
-brewContains 'python'
-brewContains 'python3'
-brewContains 'rsync'
-brewContains 'wget'
-brewContains 'docker'
-brewContains 'docker-machine'
-
-brewCaskContains 'google-chrome'
-
-brewContains 'TEST_BREW'
-brewCaskContains 'TEST_CASK'
+function brewInstall () {
+  if ! brewContains "$1" ; then
+    printf 'Installation:\n> [macOs] BREW installing: %s\n' "$1"
+    brew install "$1"
+  fi
+}
+function brewCaskInstall () {
+  if ! brewCaskContains "$1" ; then
+    printf '\nInstallation:\n> [macOs] BREW CASK installing: %s\n' "$1"
+    brew cask install "$1"
+  fi
+}
