@@ -1,31 +1,9 @@
 #!/bin/bash
 
 #####################################################################
-# Functions
+# Global Functions
 function cmdExists () {
     type "$1" &> /dev/null ;
-}
-
-function formulaInstalled () {
-  brew ls --versions "$1" > /dev/null
-}
-
-function brewInstall () {
-  if ! formulaInstalled "$1" ; then
-    printf 'Installation:\n> [macOs] BREW installing: %s\n' "$1"
-    brew install android-sdk
-  fi
-}
-
-function caskInstalled () {
-  brew cask ls --versions sublime-text "$1" &> /dev/null
-}
-
-function caskInstall () {
-  if ! caskInstalled "$1" ; then
-    printf '\nInstallation:\n> [macOs] BREW CASK installing: %s\n' "$1"
-    brew cask install "$1"
-  fi
 }
 
 #####################################################################
@@ -49,16 +27,54 @@ fi
 
 #####################################################################
 # Mac Homebrew
+
+# Homebrew installation
 if [[ "$isMac" == true ]]; then
   if ! cmdExists brew ; then
     printf 'Installation:\n> [macOs] RUBY installing BREW'
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew update
-    brewInstall 'brew-cask'
-    brew tap caskroom/cask
-    brew tap caskroom/versions
   fi
 fi
+
+# Variables for brew to speed up functions bellow
+brewList=''
+brewCaskList=''
+if [[ "$isMac" == true ]]; then
+  brewList=`brew list`
+  brewCaskList=`brew cask list`
+fi
+
+# brew additional functions
+function brewContains () {
+  if [[ $brewList == *"$1"* ]]; then
+    #echo "Formula: $1 exists :-)"
+    return 0;
+  else
+    #echo "Formula: $1 does not exist !!!"
+    return 1;
+  fi
+}
+function brewCaskContains () {
+  if [[ $brewCaskList == *"$1"* ]]; then
+    #echo "Cask: $1 exists..."
+    return 0;
+  else
+    #echo "Cask: $1 does not exist !!!"
+    return 1;
+  fi
+}
+function brewInstall () {
+  if ! brewContains "$1" ; then
+    printf 'Installation:\n> [macOs] BREW installing: %s\n' "$1"
+    brew install android-sdk
+  fi
+}
+function brewCaskInstall () {
+  if ! brewCaskContains "$1" ; then
+    printf '\nInstallation:\n> [macOs] BREW CASK installing: %s\n' "$1"
+    brew cask install "$1"
+  fi
+}
 
 #####################################################################
 # Git + Git aware prompt
@@ -86,6 +102,141 @@ export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] \
 export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+
+#####################################################################
+# Mac Homebrew apps
+if [[ "$isMac" == true ]]; then
+  ########################## SDK's'
+  # Android SDK
+  brewInstall 'android-sdk'
+
+  ########################## Build tools
+  # Ant
+  brewInstall 'ant'
+  # Gradle
+  brewInstall 'gradle'
+  # Maven
+  brewInstall 'maven'
+  # Node.js
+  brewInstall 'node'
+
+  ########################## Daily use cli tools
+  # Core utils: grealink etc.
+  brewInstall 'coreutils'
+  # Python
+  brewInstall 'python'
+  # Python3
+  brewInstall 'python3'
+  # Rsync
+  brewInstall 'rsync'
+  # Wget
+  brewInstall 'wget'
+fi 
+
+#####################################################################
+# Mac homebrew cask : Applications
+if [[ "$isMac" == true ]]; then
+  ########################## Development tools
+  # Docker toolbox
+  brewCaskInstall 'docker-toolbox'
+  # Java 7
+  brewCaskInstall 'java7'
+  # Java 8
+  brewCaskInstall 'java'
+  # iTerm2
+  brewCaskInstall 'iterm2'
+  # Sublime
+  brewCaskInstall 'sublime-text'
+  # Visual Studio code
+  brewCaskInstall 'visual-studio-code'
+   # Android Studio
+  brewCaskInstall 'android-studio'
+  # Source Tree
+  brewCaskInstall 'sourcetree'
+  # Virtual Box
+  brewCaskInstall 'virtualbox'
+
+  ########################## System utils
+  # App Zapper
+  brewCaskInstall 'appzapper'
+  # better touch tool
+  brewCaskInstall 'bettertouchtool'
+  # gfx card status
+  brewCaskInstall 'gfxcardstatus'
+  # Mac ports
+  brewCaskInstall 'macports'
+  # smc fan control
+  brewCaskInstall 'smcfancontrol'
+  # XtraFinder
+  brewCaskInstall 'xtrafinder'
+
+  ########################## Tools for daily use
+  # Google Chrome
+  brewCaskInstall 'google-chrome'
+  # Google Drive
+  brewCaskInstall 'google-drive'
+  # Mozilla Firefox
+  brewCaskInstall 'firefox'
+  # Filezilla
+  brewCaskInstall 'filezilla'
+  # Adobe Creative Cloud
+  brewCaskInstall 'adobe-creative-cloud'
+  # Slack
+  brewCaskInstall 'slack'
+  # Skitch
+  brewCaskInstall 'skitch'
+  # Team Viewer
+  brewCaskInstall 'teamviewer'
+  # XN View MP
+  brewCaskInstall 'xnviewmp'
+  # Zoom.us 
+  brewCaskInstall 'zoomus'
+  # Real VNC
+  brewCaskInstall 'real-vnc'
+  # Skype
+  brewCaskInstall 'skype'
+
+  ########################## Tools for fun & pleasure
+  # Spotify
+  brewCaskInstall 'spotify'
+  # Djay pro 
+  brewCaskInstall 'djay-pro'
+  # Kid3
+  brewCaskInstall 'kid3'
+  # Messenger
+  brewCaskInstall 'messenger'
+  # Steam
+  brewCaskInstall 'steam'
+  # Viber
+  brewCaskInstall 'viber'
+  # Whats app
+  brewCaskInstall 'whatsapp'
+  # VLC Media Player
+  brewCaskInstall 'vlc'
+  # Gopro Studio
+  brewCaskInstall 'gopro-studio'
+  # HandBrake
+  brewCaskInstall 'handbrake'
+
+  ########################## Tools for use with NAS
+  # Trasmission Remote Gui
+  brewCaskInstall 'transmission-remote-gui'
+  # Plex Home Theater
+  brewCaskInstall 'plex-home-theater'
+fi
+
+#####################################################################
+# Java
+if [[ "$isMac" == true ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+elif [[ "$isUbuntu" == true ]]; then
+  if ! cmdExists java ; then
+    printf 'Installation:\n> APT installing java (ubuntu)'
+    sudo add-apt-repository ppa:webupd8team/java
+    sudo apt-get update
+    sudo apt-get install -y oracle-java8-installer
+  fi 
+fi
 
 #####################################################################
 # Other development tools: node.js, ruby, sass, compass
@@ -120,140 +271,6 @@ export COMPASS=`which compass`
 export NPM=`which npm`
 
 #####################################################################
-# Aliases
-if [[ "$isMac" == true ]]; then
-  alias ls='ls -GFh'
-  alias ll='ls -l'
-  alias la='ls -la'
-fi
-if [[ "$isUbuntu" == true ]]; then
-  alias ls='ls -GFh --color'
-  alias ll='ls -l --color'
-  alias la='ls -la --color'
-fi
-alias cd..='cd ..'
-alias cs....='cd ../..'
-alias cls='clear'
-alias clr='clear'
-if [[ "$isMac" == true ]]; then
-  alias eclipse_sudo='sudo /opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
-  alias eclipse='/opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
-  alias sublime='/Applications/Sublime\ Text.app/Contents/MacOS/Sublime\ Text >> /dev/null 2>&1 &'
-fi
-
-#####################################################################
-# Java
-if [[ "$isMac" == true ]]; then
-  export JAVA_HOME=$(/usr/libexec/java_home)
-elif [[ "$isUbuntu" == true ]]; then
-  if ! cmdExists java ; then
-    printf 'Installation:\n> APT installing java (ubuntu)'
-    sudo add-apt-repository ppa:webupd8team/java
-    sudo apt-get update
-    sudo apt-get install -y oracle-java8-installer
-  fi 
-fi
-
-#####################################################################
-# Mac Homebrew apps
-if [[ "$isMac" == true ]]; then
-  # coreutils: greadlink etc.
-  brewInstall 'coreutils'
-  # Android SDK
-  brewInstall 'android-sdk'
-  # Docker
-  brewInstall 'docker'
-  brewInstall 'docker-machine'
-fi 
-
-#####################################################################
-# Mac homebrew cask : Applications
-if [[ "$isMac" == true ]]; then
-  # Java 7
-  caskInstall 'java7'
-  # Java 8
-  caskInstall 'java'
-  # iTerm2
-  caskInstall 'iterm2'
-  # Sublime
-  caskInstall 'sublime-text'
-  # Visual Studio code
-  caskInstall 'visual-studio-code'
-   # Android Studio
-  caskInstall 'android-studio'
-  # Source Tree
-  caskInstall 'sourcetree'
-  # Virtual Box
-  caskInstall 'virtualbox'
-  # Mac ports
-  caskInstall 'macports'
-  # smc fan control
-  caskInstall 'smcfancontrol'
-
-  ############# 
-  # Google Chrome
-  caskInstall 'google-chrome'
-  # Google Drive
-  caskInstall 'google-drive'
-  # Mozilla Firefox
-  caskInstall 'firefox'
-  # Filezilla
-  caskInstall 'filezilla'
-  # gfx card status
-  caskInstall 'gfxcardstatus'
-  # better touch tool
-  caskInstall 'bettertouchtool'
-  # App Zapper
-  caskInstall 'appzapper'
-  # Adobe Creative Cloud
-  caskInstall 'adobe-creative-cloud'
-  # Adobe Acrobat Reader
-  caskInstall 'adobe-reader'
-  # Slack
-  caskInstall 'slack'
-  # Skitch
-  caskInstall 'skitch'
-  # Team Viewer
-  caskInstall 'teamviewer'
-  # XN View MP
-  caskInstall 'xnviewmp'
-  # XtraFinder
-  caskInstall 'xtrafinder'
-  # Zoom.us 
-  caskInstall 'zoomus'
-  # Real VNC
-  caskInstall 'real-vnc'
-  # Skype
-  caskInstall 'skype'
-
-  ############# FOR FUN
-  # Spotify
-  caskInstall 'spotify'
-  # Djay pro 
-  caskInstall 'djay-pro'
-  # Kid3
-  caskInstall 'kid3'
-  # Messenger
-  caskInstall 'messenger'
-  # Steam
-  caskInstall 'steam'
-  # Trasmission Remote Gui
-  caskInstall 'transmission-remote-gui'
-  # Viber
-  caskInstall 'viber'
-  # Whats app
-  caskInstall 'whatsapp'
-  # VLC Media Player
-  caskInstall 'vlc'
-  # Gopro Studio
-  caskInstall 'gopro-studio'
-  # HandBrake
-  caskInstall 'handbrake'
-  # Vinoteka
-  caskInstall 'vinoteka'
-fi
-
-#####################################################################
 # Paths
 export PATH=/usr/local/bin:$PATH
 
@@ -275,4 +292,26 @@ if [[ "$isMac" == true ]]; then
   #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
   export SDKMAN_DIR="/Users/tokra/.sdkman"
   [[ -s "/Users/tokra/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/tokra/.sdkman/bin/sdkman-init.sh"
+fi
+
+#####################################################################
+# Aliases
+if [[ "$isMac" == true ]]; then
+  alias ls='ls -GFh'
+  alias ll='ls -l'
+  alias la='ls -la'
+fi
+if [[ "$isUbuntu" == true ]]; then
+  alias ls='ls -GFh --color'
+  alias ll='ls -l --color'
+  alias la='ls -la --color'
+fi
+alias cd..='cd ..'
+alias cs....='cd ../..'
+alias cls='clear'
+alias clr='clear'
+if [[ "$isMac" == true ]]; then
+  alias eclipse_sudo='sudo /opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
+  alias eclipse='/opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
+  alias sublime='/Applications/Sublime\ Text.app/Contents/MacOS/Sublime\ Text >> /dev/null 2>&1 &'
 fi
