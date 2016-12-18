@@ -1,5 +1,16 @@
 #!/bin/bash
-source scripts/common.sh
+
+# resolve currentDirectory
+source="${BASH_SOURCE[0]}"
+while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
+  currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+  source="$(readlink "$source")"
+  [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+
+# link common functionality
+source $currentDirectory/scripts/common.sh
 
 #####################################################################
 # OS detection
@@ -40,7 +51,7 @@ if [[ "$isMac" == true ]]; then
 fi
 
 # link additional own homebrew functions
-source scripts/brewtools.sh
+source $currentDirectory/scripts/brewtools.sh
 
 #####################################################################
 # Git + Git aware prompt
