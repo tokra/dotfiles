@@ -47,6 +47,8 @@ if isMacOs ; then
   brewCaskInstall 'smcfancontrol'
   # XtraFinder
   brewCaskInstall 'xtrafinder'
+  # Tuxera NTFS
+  brewCaskInstall 'tuxera-ntfs'
 
   ########################## Tools for daily use
   # Google Chrome
