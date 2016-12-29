@@ -21,3 +21,16 @@ function gitClone () {
     printf 'Git:\n> Cloning %s\n' "$1"
     git clone $1
 }
+
+function convertSubtitles () {
+    echo "> Start converting CP1250 to UTF-8 ..."
+    inputEncoding="CP1250"
+    outputEncoding="UTF-8"
+    # check if output file exist, if yes, delete 1st
+    if [ -f $2 ]; then 
+        rm -rf $2
+    fi
+    # convert
+    iconv -f "${inputEncoding}" -t "${outputEncoding}" $1 > $2
+    echo "> Convert CP1250 to UTF-8 on: $1 to: $2 ...done"
+}
