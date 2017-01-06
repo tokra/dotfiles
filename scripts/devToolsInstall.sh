@@ -1,35 +1,44 @@
 #!/bin/bash
 
-# resolve currentDirectory even if symlink
-source="${BASH_SOURCE[0]}"
-while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
-  currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
-  source="$(readlink "$source")"
-  [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-done
-my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
+function curDir () { # resolve currentDirectory even if symlink
+    while [ -h "${BASH_SOURCE[0]}" ]; do # resolve $source until the file is no longer a symlink
+        currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+        source="$(readlink "$source")"
+        [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    done
+    echo "$( cd -P "$( dirname "$source" )" && pwd )"
+}
+CD="`curDir`"
 
-source $my_dir/brewtools.sh
-source $my_dir/common.sh
-source $my_dir/os.sh
+source $CD/brewtools.sh
+source $CD/common.sh
+source $CD/os.sh
+source $CD/ubuntuTools.sh
 #####################################################################
 # Other development tools: node.js, ruby, sass, compass
 
 # node.js, npm
-if notExistCommand 'node' ; then
-  if isMacOs ; then
+if isMacOs ; then
+  if notExistCommand 'node' ; then
     brewInstall 'node'
-  elif isUbuntu ; then
-    printf 'Installation:\n> APT installing node.js (ubuntu)'
-    curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+  fi
+fi
+if isUbuntu ; then
+  if ! isPackageInstalled 'nodejs' ; then
+    printf 'Installation:\n> APT installing nodejs (ubuntu)'
     sudo apt-get install -y nodejs
+    sudo ln -s `which nodejs` /usr/bin/node
     sudo apt-get install -y build-essential
+  fi
+  if ! isPackageInstalled 'npm' ; then
+    printf 'Installation:\n> APT installing npm (ubuntu)'
+    sudo apt-get install -y npm
   fi
 fi
 
 # ruby : Ubuntu (MacOs should have it preinstalled)
 if isUbuntu ; then
-  if notExistCommand 'ruby' ; then
+  if ! isPackageInstalled 'ruby' ; then
     printf 'Installation:\n> APT installing ruby (ubuntu)'
     sudo apt-get install -y ruby-full
   fi
