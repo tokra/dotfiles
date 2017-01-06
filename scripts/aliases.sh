@@ -17,3 +17,8 @@ alias cd..='cd ..'
 alias cs....='cd ../..'
 alias cls='clear'
 alias clr='clear'
+# dev
+alias gi='git'
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'

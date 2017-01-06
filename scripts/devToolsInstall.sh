@@ -1,5 +1,4 @@
 #!/bin/bash
-
 function curDir () { # resolve currentDirectory even if symlink
     while [ -h "${BASH_SOURCE[0]}" ]; do # resolve $source until the file is no longer a symlink
         currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
