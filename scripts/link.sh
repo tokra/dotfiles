@@ -41,12 +41,23 @@ fi
 # .bash_aliases
 if [ -f "$HOME/.bash_aliases" ]; then
     echo "> backing up old file: .bash_aliases"
-    mv $HOME/.bash_profile $HOME/.bash_aliases.file.bak
+    mv $HOME/.bash_aliases $HOME/.bash_aliases.file.bak
 fi
 if [ -L "$HOME/.bash_aliases" ]; then
     echo "> backing up old symlink: .bash_aliases"
-    mv $HOME/.bash_profile $HOME/.bash_aliases.symlink.bak
+    mv $HOME/.bash_aliases $HOME/.bash_aliases.symlink.bak
 fi
+
+# .gitconfig
+if [ -f "$HOME/.gitconfig" ]; then
+    echo "> backing up old file: .gitconfig"
+    mv $HOME/.gitconfig $HOME/.gitconfig.file.bak
+fi
+if [ -L "$HOME/.bash_aliases" ]; then
+    echo "> backing up old symlink: .gitconfig"
+    mv $HOME/.gitconfig $HOME/.gitconfig.symlink.bak
+fi
+
 echo "Backing up of profiles... done"
 
 # creating symlinks
@@ -61,6 +72,9 @@ ln -s $CD/.bash_profile ~/.bash_profile
 
 echo "> symlink: .bash_aliases"
 ln -s $CD/.bash_aliases ~/.bash_aliases
+
+echo "> symlink: .gitconfig"
+ln -s $CD/.gitconfig ~/.gitconfig
 
 echo "Creating symlinks to '$CD' profile files... done"
 
