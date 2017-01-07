@@ -30,4 +30,4 @@ function hasEnvJavaHome() {
 }
 
 #getJavaHome 'java-8-oracle'
-hasEnvJavaHome
+#hasEnvJavaHome

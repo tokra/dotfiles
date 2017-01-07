@@ -55,4 +55,3 @@ function aptGetInstall () {
         sudo apt-get install -y "$1"
     fi
 }
-
