@@ -21,7 +21,8 @@ source $my_dir/ubuntuOsTools.sh
 # Java
 if isMacOs ; then
     export JAVA_HOME=$(/usr/libexec/java_home)
-elif isUbuntu ; then
+fi
+if isUbuntu ; then
     aptAddRepo 'ppa:webupd8team/java'
 
     # Java 6
@@ -54,5 +55,4 @@ elif isUbuntu ; then
         source /etc/environment
         printf "\nSetting JAVA_HOME... done\n"
     fi
-    
 fi
