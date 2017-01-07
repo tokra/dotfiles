@@ -1,6 +1,6 @@
 #!/bin/bash
-# general stuff
-function currentDirectory () { # resolve currentDirectory even if symlink
+### variables & functions
+function curDir () { # resolve currentDirectory even if symlink
     while [ -h "${BASH_SOURCE[0]}" ]; do # resolve $source until the file is no longer a symlink
         currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
         source="$(readlink "$source")"
@@ -8,18 +8,22 @@ function currentDirectory () { # resolve currentDirectory even if symlink
     done
     echo "$( cd -P "$( dirname "$source" )" && pwd )"
 }
-function directoryUp () {
-    echo "$1" | rev | cut -d'/' -f2- | rev
-}
-SCRIPTS=`directoryUp $(currentDirectory)`
+my_dir="`curDir`"
 
-# imports
-source $SCRIPTS/ubuntuTools.sh
+### imports
+source $my_dir/common.sh
+source $my_dir/os.sh
+source $my_dir/ubuntuAptTools.sh
 
-# Tests
-isPackageInstalled 'mc' -p
-isPackageInstalled 'git' -p
-isPackageInstalled 'mcedit' -p
-isPackageInstalled 'nodejs' -p
-isPackageInstalled 'npm' -p
-isPackageInstalled 'ruby' -p
+### main
+if isUbuntu ; then
+    # debconf-utils
+    aptGetInstall 'debconf-utils'
+
+    # mc 
+    aptGetInstall 'mc'
+
+    # mcedit
+    aptGetInstall 'mcedit'
+fi
+
