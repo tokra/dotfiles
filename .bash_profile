@@ -1,5 +1,6 @@
 #!/bin/bash
 
+### variables & functions
 # resolve currentDirectory even if symlink
 source="${BASH_SOURCE[0]}"
 while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
@@ -9,18 +10,28 @@ while [ -h "$source" ]; do # resolve $source until the file is no longer a symli
 done
 workingDir="$( cd -P "$( dirname "$source" )" && pwd )"
 
+### imports
 source $workingDir/scripts/common.sh
 source $workingDir/scripts/os.sh
+
+### main
 
 #####################################################################
 # Mac : Homebrew
 source $workingDir/scripts/homebrewInstall.sh
+
 # link additional own homebrew functions
 source $workingDir/scripts/brewtools.sh
+
 # install brew formulas
 source $workingDir/scripts/homebrewFormulas.sh
+
 # install brew casks
 source $workingDir/scripts/homebrewCask.sh
+
+#####################################################################
+# Ubuntu : apt
+source $workingDir/scripts/ubuntuAptInstall.sh
 
 #####################################################################
 # Git aware prompt
@@ -59,5 +70,13 @@ if isMacOs ; then
 fi
 
 #####################################################################
-# Aliases
-source $workingDir/scripts/aliases.sh
+# Alias definitions.
+# Put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+else
+    source $workingDir/.bash_aliases
+fi
+
