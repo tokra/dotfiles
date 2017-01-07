@@ -1,16 +1,14 @@
 #!/bin/bash
 
 ### variables & functions
-function curDir () { # resolve currentDirectory even if symlink
-    while [ -h "${BASH_SOURCE[0]}" ]; do # resolve $source until the file is no longer a symlink
-        currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
-        source="$(readlink "$source")"
-        [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-    done
-    echo "$( cd -P "$( dirname "$source" )" && pwd )"
-}
-workingDir="`curDir`"
-echo "Working dir: $workingDir"
+# resolve currentDirectory even if symlink
+source="${BASH_SOURCE[0]}"
+while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
+  currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+  source="$(readlink "$source")"
+  [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+workingDir="$( cd -P "$( dirname "$source" )" && pwd )"
 
 ### imports
 source $workingDir/scripts/common.sh
@@ -21,10 +19,13 @@ source $workingDir/scripts/os.sh
 #####################################################################
 # Mac : Homebrew
 source $workingDir/scripts/homebrewInstall.sh
+
 # link additional own homebrew functions
 source $workingDir/scripts/brewtools.sh
+
 # install brew formulas
 source $workingDir/scripts/homebrewFormulas.sh
+
 # install brew casks
 source $workingDir/scripts/homebrewCask.sh
 

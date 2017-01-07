@@ -1,18 +1,17 @@
 #!/bin/bash
 
 ### variables & functions
-function curDir () { # resolve currentDirectory even if symlink
-    while [ -h "${BASH_SOURCE[0]}" ]; do # resolve $source until the file is no longer a symlink
-        currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
-        source="$(readlink "$source")"
-        [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-    done
-    echo "$( cd -P "$( dirname "$source" )" && pwd )"
-}
-workingDir="`curDir`"
+# resolve currentDirectory even if symlink
+source="${BASH_SOURCE[0]}"
+while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
+  currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+  source="$(readlink "$source")"
+  [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 
 ### imports
-source $workingDir/shellTools.sh
+source $my_dir/shellTools.sh
 
 ### main
 function isPackageInstalled () {
@@ -33,10 +32,10 @@ function aptContainsRepo () {
     REPO="$1"
     FOUND_MATCH=`grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep "$REPO" | head -1`
     if stringContains "$FOUND_MATCH" "$REPO" ; then
-        echo "Repository: '$REPO' exists !"      
+        #echo "Repository: '$REPO' exists !"      
         return 0
     fi
-    echo "Repository: '$REPO' missing !"
+    #echo "Repository: '$REPO' missing !"
     return 1
 }
 
@@ -44,7 +43,7 @@ function aptAddRepo () {
     REPO_FULL=$1
     REPO_SHORT=`echo $1 | cut -f2 -d":"`
     if ! aptContainsRepo "$REPO_SHORT" ; then
-	printf 'Adding repository:\n> [Ubuntu/Linux] APT adding repo: %s\n' "$REPO_FULL"
+	printf '\nAdding repository:\n> [Ubuntu/Linux] APT adding repo: %s\n' "$REPO_FULL"
         sudo add-apt-repository -y "$REPO_FULL"
         sudo apt-get update
     fi
@@ -52,9 +51,8 @@ function aptAddRepo () {
 
 function aptGetInstall () {
     if ! isPackageInstalled "$1" ; then
-        printf 'Installation:\n> [Ubuntu/Linux] APT installing: %s\n' "$1"
-        sudo apt-get install "$1"
+        printf '\nInstallation:\n> [Ubuntu/Linux] APT installing: %s\n' "$1"
+        sudo apt-get install -y "$1"
     fi
 }
-
 

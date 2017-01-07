@@ -9,9 +9,11 @@ while [ -h "$source" ]; do # resolve $source until the file is no longer a symli
 done
 my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 
+### imports
 source $my_dir/os.sh
 source $my_dir/brewtools.sh
-#####################################################################
+
+### main
 # Mac homebrew cask : Applications
 if isMacOs ; then
   ########################## Development tools

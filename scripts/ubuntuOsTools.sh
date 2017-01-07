@@ -11,15 +11,23 @@ done
 my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 
 ### imports
-source $my_dir/os.sh
-source $my_dir/ubuntuAptTools.sh
+source $my_dir/shellTools.sh
 
-### main
-if isUbuntu ; then
-    # debconf-utils
-    aptGetInstall 'debconf-utils'
+function getJavaHome() {
+    JAVA_VERSION="$1"
+    JAVA_HOME="`update-java-alternatives -l | grep $JAVA_VERSION | cut -d"/" -f2- | xargs -I "%" echo /%`"
+    echo $JAVA_HOME
+}
 
-    # mc 
-    aptGetInstall 'mc'
-fi
+function hasEnvJavaHome() {
+    ENV_JAVA_HOME="`cat /etc/environment | grep JAVA_HOME`"
+    if stringContains "$ENV_JAVA_HOME" "JAVA_HOME" ; then
+	#echo "JAVA_HOME exists: '$ENV_JAVA_HOME'" 
+        return 0
+    fi
+    #echo "JAVA_HOME does not exist !"
+    return 1
+}
 
+#getJavaHome 'java-8-oracle'
+hasEnvJavaHome
