@@ -26,5 +26,5 @@ fi
 if isUbuntu ; then
     printf "\nSourcing .bashrc (ubuntu)\n"
     source ~/.bashrc
-    echo "\nSourcing .bashrc (ubuntu).. done"
+    echo "Sourcing .bashrc (ubuntu).. done"
 fi
