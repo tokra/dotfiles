@@ -21,7 +21,11 @@ if isMacOs ; then
   alias la='ls -la'
   alias eclipse_sudo='sudo /opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
   alias eclipse='/opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
-  alias sublime='/Applications/Sublime\ Text.app/Contents/MacOS/Sublime\ Text >> /dev/null 2>&1 &'
+  #open app from /Applications
+  alias sublime='open -a "Sublime Text"'
+  alias vscode='open -a "Visual Studio Code"'
+  alias sourcetree='open -a "SourceTree"'
+  alias edit='open -e'
 fi
 if isUbuntu ; then
   alias ls='ls -GFh --color'
