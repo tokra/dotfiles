@@ -67,7 +67,7 @@ server="192.168.2.50"
 local_mount_point_root="/Volumes"
 
 #Create the mount point:
-declare -a shares=("downloads" "flash" "isos" "media" "pecko" "private")
+declare -a shares=("downloads" "flash" "isos" "media" "pecko" "private" "disk1" "disk2" "disk3" "cache")
 
 for share in "${shares[@]}"
 do
@@ -191,7 +191,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>472.000000:568.000000</string>
+				<string>472.000000:253.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
