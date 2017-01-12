@@ -44,5 +44,9 @@ alias gs='git status'
 alias gc='git commit'
 alias ga='git add'
 
+# tools
+alias cprc='rsync -aP'
+alias mvrs='rsync -aP --remove-source-files'
+
 # personal
 alias unraid='ssh root@tower'
