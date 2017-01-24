@@ -8,8 +8,8 @@
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [user]
-	name = to-kra
-	email = tomas.kramaric@gmail.com
+	name = 
+	email = 
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
@@ -37,3 +37,5 @@
 [difftool "meld"]
 	cmd = open -W -a Meld --args \\\"$LOCAL\\\" \\\"$PWD/$REMOTE\\\"
 	trustExitCode = true
+[commit]
+	template = /Users/tokra/.stCommitMsg

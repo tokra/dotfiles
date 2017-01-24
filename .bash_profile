@@ -48,6 +48,8 @@ source $workingDir/scripts/devToolsInstall.sh
 #####################################################################
 # Paths
 export PATH=/usr/local/bin:$PATH
+export PATH=$workingDir/scripts:$PATH
+export PATH=$workingDir/bin:$PATH
 
 if isMacOs ; then
   export PATH=/Applications:$PATH

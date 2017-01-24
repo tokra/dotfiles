@@ -99,10 +99,14 @@ if isMacOs ; then
   brewCaskInstall 'gopro-studio'
   # HandBrake
   brewCaskInstall 'handbrake'
+  # cakebrew
+  brewCaskInstall 'cakebrew'
 
   ########################## Tools for use with NAS
   # Trasmission Remote Gui
   brewCaskInstall 'transmission-remote-gui'
   # Plex Home Theater
   brewCaskInstall 'plex-home-theater'
+  # Deluge (fails to open)
+  # brewCaskInstall 'deluge'
 fi
