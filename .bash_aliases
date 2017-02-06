@@ -43,10 +43,11 @@ alias gi='git'
 alias gs='git status'
 alias gc='git commit'
 alias ga='git add'
+alias docker_jenkins='docker run -p 8080:8080 -p 50000:50000 -v /Users/tokra/jenkins_home:/var/jenkins_home jenkins'
 
 # tools
-alias cprc='rsync -aP'
-alias mvrs='rsync -aP --remove-source-files'
+alias cp_rsync='rsync -aP'
+alias mv_rsync='rsync -aP --remove-source-files'
 
 # personal
 alias unraid='ssh root@tower'
