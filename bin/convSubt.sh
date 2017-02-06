@@ -26,7 +26,7 @@ function convertSubtitles () {
 
 function getFileCharset () {
     if [ -f "$1" ] ; then
-        file -I "$1" | cut -f 2 -d";" | cut -f 2 -d=
+        file --mime "$1" | cut -f 2 -d";" | cut -f 2 -d=
     else
         echo "file does not exist !"
     fi
