@@ -16,9 +16,15 @@ source $workingDir/scripts/os.sh
 #####################################################################
 # Aliases
 if isMacOs ; then
-  alias ls='ls -GFh'
-  alias ll='ls -l'
-  alias la='ls -la'
+  # gls is from GNU Core Utilities package
+  # a (do not ignore entries starting with)
+  # F (append indicator (one of */=>@|) to entries)
+  # h (print human readable sizes)
+  # --color (colorize the output)
+  # --group-directories-first (group directories before files)
+  alias ls='gls -Fh --color --group-directories-first'
+  alias ll='gls -lFh --color --group-directories-first'
+  alias la='gls -laFh --color --group-directories-first'
   alias eclipse_sudo='sudo /opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
   alias eclipse='/opt/kcdev/Eclipse.app/Contents/MacOS/eclipse &'
   #open app from /Applications
@@ -28,9 +34,9 @@ if isMacOs ; then
   alias edit='open -e'
 fi
 if isUbuntu ; then
-  alias ls='ls -GFh --color'
-  alias ll='ls -l --color'
-  alias la='ls -la --color'
+  alias ls='ls -Fh --color --group-directories-first'
+  alias ll='ls -lFh --color --group-directories-first'
+  alias la='ls -laFh --color --group-directories-first'
 fi
 
 alias cd..='cd ..'
