@@ -23,11 +23,17 @@ source $workingDir/scripts/homebrewInstall.sh
 # link additional own homebrew functions
 source $workingDir/scripts/brewtools.sh
 
+# tapping brew repositories
+source $workingDir/scripts/homebrewTap.sh
+
 # install brew formulas
 source $workingDir/scripts/homebrewFormulas.sh
 
 # install brew casks
 source $workingDir/scripts/homebrewCask.sh
+
+# install brew caskroom/versions
+source $workingDir/scripts/homebrewCaskVersions.sh
 
 #####################################################################
 # Ubuntu : apt
