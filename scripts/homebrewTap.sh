@@ -12,22 +12,29 @@ my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 source $my_dir/os.sh
 source $my_dir/brewtools.sh
 #####################################################################
-# Mac Homebrew
-# Homebrew installation
+# Mac Homebrew apps
 if isMacOs ; then
-  if notExistCommand 'brew' ; then
-    printf 'Installation:\n> [macOs] RUBY installing BREW'
-    #/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </dev/null
-  fi
-fi
+  ########################## SDK's'
 
-# Variables for brew to speed up functions bellow
-brewList=''
-brewCaskList=''
-brewTapList=''
-if isMacOs ; then
-  brewList=`brew list`
-  brewCaskList=`brew cask list`
-  brewTapList=`brew tap`
-fi
+  ########################## Build tools
+  # Ant
+  brewInstall 'ant'
+  # Gradle
+  brewInstall 'gradle'
+  # Maven
+  brewInstall 'maven'
+
+  ########################## Daily use cli tools
+  # git
+  brewInstall 'git'
+  # Core utils: grealink etc.
+  brewInstall 'coreutils'
+  # Python
+  brewInstall 'python'
+  # Python3
+  brewInstall 'python3'
+  # Rsync
+  brewInstall 'rsync'
+  # Wget
+  brewInstall 'wget'
+fi 

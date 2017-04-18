@@ -21,8 +21,6 @@ if isMacOs ; then
   brewCaskInstall 'android-sdk'
   # Docker toolbox
   brewCaskInstall 'docker-toolbox'
-  # Java 7
-  brewCaskInstall 'java7'
   # Java 8
   brewCaskInstall 'java'
   # iTerm2
@@ -97,8 +95,8 @@ if isMacOs ; then
   brewCaskInstall 'whatsapp'
   # VLC Media Player
   brewCaskInstall 'vlc'
-  # Gopro Studio
-  brewCaskInstall 'gopro-studio'
+  ## CANNOT INSTALL: Gopro Studio
+  ## brewCaskInstall 'gopro-studio'
   # HandBrake
   brewCaskInstall 'handbrake'
   # cakebrew
@@ -107,8 +105,8 @@ if isMacOs ; then
   ########################## Tools for use with NAS
   # Trasmission Remote Gui
   brewCaskInstall 'transmission-remote-gui'
-  # Plex Home Theater
-  brewCaskInstall 'plex-home-theater'
+  ## CANNOT INSTALL: Plex Home Theater
+  ## brewCaskInstall 'plex-home-theater'
   # Deluge (fails to open)
   # brewCaskInstall 'deluge'
 fi
