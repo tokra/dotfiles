@@ -17,6 +17,8 @@ source $my_dir/brewtools.sh
 # Mac homebrew cask : Applications
 if isMacOs ; then
   ########################## Development tools
+  # Android SDK
+  brewCaskInstall 'android-sdk'
   # Docker toolbox
   brewCaskInstall 'docker-toolbox'
   # Java 7
@@ -29,7 +31,7 @@ if isMacOs ; then
   brewCaskInstall 'sublime-text'
   # Visual Studio code
   brewCaskInstall 'visual-studio-code'
-   # Android Studio
+  # Android Studio
   brewCaskInstall 'android-studio'
   # Source Tree
   brewCaskInstall 'sourcetree'

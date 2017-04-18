@@ -58,7 +58,8 @@ if isMacOs ; then
   export PATH=/opt/jazz/scmtools/eclipse:$PATH
 
   # Android Home
-  export ANDROID_HOME=`brew --prefix android-sdk`
+  export ANDROID_HOME="/usr/local/opt/android-sdk"
+  export PATH="$ANDROID_HOME/bin:$PATH"
   launchctl setenv ANDROID_HOME $ANDROID_HOME
 
   # MacPorts Installer addition on 2015-08-13_at_15:10:48: adding an appropriate PATH variable for use with MacPorts.
