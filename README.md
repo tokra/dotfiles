@@ -7,3 +7,8 @@ I know there are lots of such projects, but I wanted to make my own to improve &
 1. Clone this repository (e.g. into `/Users/tokra/github/`)
 1. After clone open terminal and run this script (it's located in root of cloned repo): `run.sh`
 1. Next time you open terminal, it will fire installation of all things
+
+## Supports (MacOs):
+* Homebrew
+* Homebrew Cask
+* Caskroom Versions
