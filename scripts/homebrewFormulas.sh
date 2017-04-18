@@ -15,8 +15,6 @@ source $my_dir/brewtools.sh
 # Mac Homebrew apps
 if isMacOs ; then
   ########################## SDK's'
-  # Android SDK
-  brewInstall 'android-sdk'
 
   ########################## Build tools
   # Ant
