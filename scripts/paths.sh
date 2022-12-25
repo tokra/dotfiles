@@ -57,7 +57,7 @@ if isMacOs ; then
     fi
     
     # NodeJS
-    export PATH="/usr/local/opt/node@16/bin:$PATH"
+    #export PATH="/usr/local/opt/node@16/bin:$PATH"
     
     # Ruby
     export PATH="/usr/local/opt/ruby/bin:$PATH"

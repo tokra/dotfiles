@@ -17,8 +17,9 @@ if isMacOs ; then
   ########################## Dev tools
   # groovy
   brewInstall 'groovy'
-  # node.js
+  # NodeJS
   brewInstall 'node@16'
+  export PATH="/usr/local/opt/node@16/bin:$PATH"
   # yarn
   brewInstall 'yarn'
   # bash debug
