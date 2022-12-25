@@ -1,0 +1,52 @@
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = to-kra
+	email = code@tokra.io
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[alias]
+	cm = commit -m
+	co = checkout
+	cob = checkout -b
+	crbl = checkout -b
+	crbr = push -u origin
+	delbl = branch -d
+	delbr = push origin --delete
+	st = status
+	aa = add .
+	psh = push
+	pulom = pull origin master
+	pusom = push origin master
+	pshb = push -u origin
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg = !"git lg1"
+	br = branch
+	undo = checkout HEAD^
+	reset = checkout --
+[commit]
+	template = ~/.stCommitMsg
+[init]
+	templatedir = ~/.git-templates
+[merge]
+	tool = p4mergetool
+[mergetool "p4mergetool"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $PWD/$BASE $PWD/$REMOTE $PWD/$LOCAL $PWD/$MERGED
+	trustExitCode = false
+[mergetool]
+	keepBackup = false
+[diff]
+	tool = p4mergetool
+[difftool "p4mergetool"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $LOCAL $REMOTE
