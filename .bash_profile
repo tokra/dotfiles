@@ -54,7 +54,7 @@ source $workingDir/scripts/gitAwarePromptInstall.sh
 
 #####################################################################
 # Java
-source $workingDir/scripts/javaInstall.sh
+#source $workingDir/scripts/javaInstall.sh
 
 #####################################################################
 # Other development tools: node.js, ruby, sass, compass
