@@ -126,7 +126,7 @@ function variableExists {
 
 function commandExists {
   if ! [ -x "$(command -v $1)" ]; then
-    echo 'Error: $1 is not installed.' >&2
+    echo "Error: $1 is not installed." >&2
     return 1
   else
     return 0

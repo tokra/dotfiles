@@ -12,10 +12,10 @@ my_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 source $my_dir/shellTools.sh
 source $my_dir/os.sh
 #-------------------------------------------------------------
-#if isMacOs ; then
-    #if ! commandExists 'ibmcloud' ; then
-    #    # IBM Cloud CLI
-    #    echo 'About to install IBM Cloud CLI...'
-    #    curl -fsSL https://clis.ng.bluemix.net/install/osx | sh
-    #fi
-#fi
+if isMacOs ; then
+    if ! commandExists 'ibmcloud' ; then
+      # IBM Cloud CLI
+      echo 'About to install IBM Cloud CLI...'
+      curl -fsSL https://clis.cloud.ibm.com/install/osx | sh
+    fi
+fi
